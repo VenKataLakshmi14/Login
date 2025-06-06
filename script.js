@@ -1,6 +1,4 @@
-const loginForm = document.getElementById("loginForm");
-
-loginForm.addEventListener("submit", async function (e) {
+document.getElementById("loginForm").addEventListener("submit", async function (e) {
   e.preventDefault();
 
   const email = document.getElementById("email").value.trim();
@@ -10,20 +8,24 @@ loginForm.addEventListener("submit", async function (e) {
     const response = await fetch("https://dev-api.wildgamebutcher.com/api/auth/login", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({ email, password }),
     });
 
     const data = await response.json();
 
     if (response.ok) {
+     
+     
+      localStorage.setItem("token", data.data.token);
       alert("Login successful!");
-      console.log("User info:", data);
-    } else {
-      alert("Login failed: " + (data.message || "Invalid credentials"));
-    }
+      console.log("Stored user:", data);
 
+      
+    } else {
+      alert("Login failed: " + (data.message || "Invalid credentials"));''
+    }
   } catch (error) {
     console.error("Error during login:", error);
     alert("Something went wrong. Please try again later.");
